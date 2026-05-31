@@ -81,4 +81,15 @@ export class TrelloApi {
   async addLabelToCard(cardId: string, labelId: string) {
     return await this.post(`/cards/${cardId}/idLabels`, { value: labelId });
   }
+
+  async updateLabel(labelId: string, name?: string, color?: string) {
+    const data: Record<string, any> = {};
+    if (name !== undefined) data.name = name;
+    if (color !== undefined) data.color = color ?? "";
+    return await this.put(`/labels/${labelId}`, data);
+  }
+
+  async deleteLabel(labelId: string) {
+    return await this.delete(`/labels/${labelId}`);
+  }
 }

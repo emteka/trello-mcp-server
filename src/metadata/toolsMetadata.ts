@@ -231,4 +231,41 @@ export const toolsMetadata = [
       required: ["cardId", "labelId"],
     },
   },
+  {
+    name: "update_label",
+    description: "Update a label name and/or color",
+    inputSchema: {
+      type: "object",
+      properties: {
+        labelId: {
+          type: "string",
+          description: "ID of the label to update",
+        },
+        name: {
+          type: "string",
+          description: "New name for the label (optional)",
+        },
+        color: {
+          type: "string",
+          description:
+            "New color for the label (e.g. green, yellow, orange, red, purple, blue, sky, lime, pink, black). Optional - leave empty for no color.",
+        },
+      },
+      required: ["labelId"],
+    },
+  },
+  {
+    name: "delete_label",
+    description: "Delete a label from a board",
+    inputSchema: {
+      type: "object",
+      properties: {
+        labelId: {
+          type: "string",
+          description: "ID of the label to delete",
+        },
+      },
+      required: ["labelId"],
+    },
+  },
 ];

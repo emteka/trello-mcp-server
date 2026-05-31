@@ -527,5 +527,80 @@ export function createToolHandlers(trello: TrelloApi) {
         };
       }
     },
+    async handleUpdateLabel(args: any) {
+      try {
+        const { labelId, name, color } = args;
+        if (!labelId) throw new Error("labelId is required");
+        if (!name && !color)
+          throw new Error("At least name or color must be provided");
+        const label = await trello.updateLabel(
+          labelId as string,
+          name as string | undefined,
+          color as string | undefined
+        );
+        return {
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify(
+                {
+                  id: label.id,
+                  name: label.name,
+                  color: label.color,
+                },
+                null,
+                2
+              ),
+            },
+          ],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: "text",
+              text: `Error: ${
+                error instanceof Error ? error.message : String(error)
+              }`,
+            },
+          ],
+          isError: true,
+        };
+      }
+    },
+    async handleDeleteLabel(args: any) {
+      try {
+        const { labelId } = args;
+        if (!labelId) throw new Error("labelId is required");
+        await trello.deleteLabel(labelId as string);
+        return {
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify(
+                {
+                  deleted: true,
+                  labelId,
+                },
+                null,
+                2
+              ),
+            },
+          ],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: "text",
+              text: `Error: ${
+                error instanceof Error ? error.message : String(error)
+              }`,
+            },
+          ],
+          isError: true,
+        };
+      }
+    },
   };
 }

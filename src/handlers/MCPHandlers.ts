@@ -21,10 +21,18 @@ const trello = new TrelloApi(
 );
 const toolHandlers = createToolHandlers(trello);
 
-export const mcpServer = new Server({
-  name: "trello-mcp-server",
-  version: "1.0.0",
-});
+export const mcpServer = new Server(
+  {
+    name: "trello-mcp-server",
+    version: "1.0.0",
+  },
+  {
+    capabilities: {
+      resources: {},
+      tools: {},
+    },
+  }
+);
 
 mcpServer.setRequestHandler(ListResourcesRequestSchema, async () => {
   try {
@@ -142,6 +150,15 @@ mcpServer.setRequestHandler(CallToolRequestSchema, async (request) => {
         break;
       case "update_card_name":
         result = await toolHandlers.handleUpdateCardName(args);
+        break;
+      case "get_labels":
+        result = await toolHandlers.handleGetLabels(args);
+        break;
+      case "create_label":
+        result = await toolHandlers.handleCreateLabel(args);
+        break;
+      case "add_label_to_card":
+        result = await toolHandlers.handleAddLabelToCard(args);
         break;
 
       default:

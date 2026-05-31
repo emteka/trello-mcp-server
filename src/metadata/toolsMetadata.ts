@@ -176,4 +176,59 @@ export const toolsMetadata = [
       required: ["cardId", "name"],
     },
   },
+  {
+    name: "get_labels",
+    description: "Get all labels from a specific board",
+    inputSchema: {
+      type: "object",
+      properties: {
+        boardId: {
+          type: "string",
+          description: "ID of the board to get labels from",
+        },
+      },
+      required: ["boardId"],
+    },
+  },
+  {
+    name: "create_label",
+    description: "Create a new label in a specific board",
+    inputSchema: {
+      type: "object",
+      properties: {
+        boardId: {
+          type: "string",
+          description: "ID of the board to create the label in",
+        },
+        name: {
+          type: "string",
+          description: "Name of the label",
+        },
+        color: {
+          type: "string",
+          description:
+            "Color of the label (e.g. green, yellow, orange, red, purple, blue, sky, lime, pink, black). Optional - leave empty for no color.",
+        },
+      },
+      required: ["boardId", "name"],
+    },
+  },
+  {
+    name: "add_label_to_card",
+    description: "Add an existing label to a card",
+    inputSchema: {
+      type: "object",
+      properties: {
+        cardId: {
+          type: "string",
+          description: "ID of the card to add the label to",
+        },
+        labelId: {
+          type: "string",
+          description: "ID of the label to add",
+        },
+      },
+      required: ["cardId", "labelId"],
+    },
+  },
 ];

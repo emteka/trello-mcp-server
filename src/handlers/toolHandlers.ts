@@ -415,5 +415,117 @@ export function createToolHandlers(trello: TrelloApi) {
         };
       }
     },
+    async handleGetLabels(args: any) {
+      try {
+        const { boardId } = args;
+        if (!boardId) throw new Error("boardId is required");
+        const labels = await trello.getLabels(boardId as string);
+        return {
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify(
+                labels.map((label: any) => ({
+                  id: label.id,
+                  name: label.name,
+                  color: label.color,
+                })),
+                null,
+                2
+              ),
+            },
+          ],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: "text",
+              text: `Error: ${
+                error instanceof Error ? error.message : String(error)
+              }`,
+            },
+          ],
+          isError: true,
+        };
+      }
+    },
+    async handleCreateLabel(args: any) {
+      try {
+        const { boardId, name, color = null } = args;
+        if (!boardId || !name)
+          throw new Error("boardId and name are required");
+        const label = await trello.createLabel(
+          boardId as string,
+          name as string,
+          color as string | null
+        );
+        return {
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify(
+                {
+                  id: label.id,
+                  name: label.name,
+                  color: label.color,
+                  boardId: label.idBoard,
+                },
+                null,
+                2
+              ),
+            },
+          ],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: "text",
+              text: `Error: ${
+                error instanceof Error ? error.message : String(error)
+              }`,
+            },
+          ],
+          isError: true,
+        };
+      }
+    },
+    async handleAddLabelToCard(args: any) {
+      try {
+        const { cardId, labelId } = args;
+        if (!cardId || !labelId)
+          throw new Error("cardId and labelId are required");
+        await trello.addLabelToCard(cardId as string, labelId as string);
+        return {
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify(
+                {
+                  added: true,
+                  cardId,
+                  labelId,
+                },
+                null,
+                2
+              ),
+            },
+          ],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: "text",
+              text: `Error: ${
+                error instanceof Error ? error.message : String(error)
+              }`,
+            },
+          ],
+          isError: true,
+        };
+      }
+    },
   };
 }

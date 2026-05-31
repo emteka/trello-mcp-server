@@ -63,4 +63,22 @@ export class TrelloApi {
   async createList(boardId: string, name: string) {
     return await this.post("/lists", { idBoard: boardId, name });
   }
+
+  async getLabels(boardId: string) {
+    return await this.get(`/boards/${boardId}/labels`, {
+      fields: "id,name,color",
+    });
+  }
+
+  async createLabel(boardId: string, name: string, color: string | null) {
+    return await this.post("/labels", {
+      idBoard: boardId,
+      name,
+      color: color ?? "",
+    });
+  }
+
+  async addLabelToCard(cardId: string, labelId: string) {
+    return await this.post(`/cards/${cardId}/idLabels`, { value: labelId });
+  }
 }

@@ -280,6 +280,9 @@ Archive the completed card "Setup database"
 | `delete_board`     | Delete a board                             | `boardId`                           |
 | `update_list_name` | Update a list name                         | `listId`, `name`                    |
 | `update_card_name` | Update a card name                         | `cardId`, `name`                    |
+| `get_labels`       | Get all labels from a specific board       | `boardId`                           |
+| `create_label`     | Create a new label in a specific board     | `boardId`, `name`, `color` (optional) |
+| `add_label_to_card`| Add an existing label to a card            | `cardId`, `labelId`                 |
 
 ## Available Resources
 
